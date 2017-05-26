@@ -68,9 +68,9 @@
 
 ;; TODO: Don't expose a core.async API
 (defn create-usb-listener
-  "Stream attach and detach events through <out>, every <ms> milliseconds.
-  An attach event will be represented as a pair of [:attach <dev>] and
-  a detach event will be represented as [:detach <dev>]."
+  "Stream attach and detach events through `out`, every `ms` milliseconds.
+  An attach event will be represented as a pair of `[:attach <dev>]` and
+  a detach event will be represented as `[:detach <dev>]`."
   ([ms] (create-usb-listener (chan) ms))
   ([out ms]
    (let [poll (apply-poll ms device-list)
