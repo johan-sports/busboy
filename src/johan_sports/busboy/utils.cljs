@@ -1,6 +1,7 @@
-(ns busboy.utils
-  (:require [clojure.string :as string]
-            [clojure.walk :as walk]))
+(ns johan-sports.busboy.utils
+  (:require
+   [clojure.string :as string]
+   [clojure.walk :as walk]))
 
 (defn camel-case->kebab-case
   "Convert a string S that is in camel case format (likeThis)

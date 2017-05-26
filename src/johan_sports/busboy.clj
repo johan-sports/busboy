@@ -1,23 +1,23 @@
-(ns busboy.core
-  (:require [busboy.utils :refer [js->clj-kw]]
-            [clojure.data]
-            [cljs.core.async :refer [timeout chan put! <! >!]]
-            [usb-driver])
-  (:require-macros [busboy.macros :refer [go-when]]
-                   [cljs.core.async.macros :refer [go-loop]]))
+(ns johan-sports.busboy
+  (:require
+   [johan-sports.busboy.utils :refer [js->clj-kw]]
+   [cljs.core.async :refer [timeout chan put! <! >!]]
+   [clojure.data])
+  (:require-macros
+   [johan-sports.busboy.async :refer [go-when]]
+   [cljs.core.async.macros    :refer [go-loop]]))
 
-(def ^:private usb-driver (js/require "usb-driver"))
+(def ^:private subdevil (js/require "subdevil"))
 
-;; Ensure that USB is initialized
-(when (nil? usb-driver)
-  (throw (js/Error. "Expected module usb-driver to be defined, got nil")))
+(when (nil? subdevil)
+  (throw (js/Error. "Expected module subdevil to be defined, got nil")))
 
 (defn- device-list
   "Return a list of `Device` objects for the USB devices
   attached to the system."
   ([] (device-list (chan)))
   ([out]
-   (.then (.pollDevices usb-driver)
+   (.then (.poll subdevil)
           (fn [devs] (put! out devs)))
 
    out))
@@ -52,7 +52,7 @@
   (apply-diff first old new))
 
 (defn- make-device
-  "Create a new device from the device `dev` received from usb-driver."
+  "Create a new device from the device `dev` received from subdevil"
   [dev] (js->clj-kw dev))
 
 (defn- create-device-state

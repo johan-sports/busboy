@@ -1,4 +1,4 @@
-(ns busboy.macros)
+(ns johan-sports.busboy.async)
 
 (defmacro go-when
   [bindings & body]
