@@ -17,17 +17,33 @@ cljs.user> (def dev-ch (busboy/create-usb-listener poll-interval))
 nil
 cljs.user> ;; device is attached
 cljs.user> (go (println (<! dev-ch)))
-[:attached ]
+[:attached {:id "...", :manufacturer "Foobar Industries", :mount "/Volumes/Vol1"}]
 nil
 cljs.user> ;; device is detached
 cljs.user> (go (println (<! dev-ch)))
-[:detached ]
+[:attached {:id "...", :manufacturer "Foobar Industries"}]
 nil
 cljs.user> (close! dev-ch) ;; stop listening
 ```
 
 There are plans in the future to remove the dependecy on `core.async` and either
 pass a callback directly or use something like `manifold`.
+
+### Devices
+
+Devices are represented with a plain hash-map:
+
+```clojure
+{
+  :id "0x22B3-0xEF23-IDQ21AS23AB"    ;; Unique ID
+  :vendor-id     0x22B3              ;; USB vendor ID
+  :product-id    0xEF23              ;; USB product ID
+  :manufacturer  "Foobar Industries" ;; Name of manufacturer (if available)
+  :product       "Time Traveler v3"  ;; Name of product (if available)
+  :serial-number "IDQ21AS23AB"       ;; Serial number (if available)
+  :mount         "/Volumes/Vol1"     ;; Path to mount point (if available)
+}
+```
 
 ## Contributors
 
