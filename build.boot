@@ -1,11 +1,12 @@
 (set-env!
  :source-paths #{"src"}
- :resource-paths #{"src"}
- :dependencies '[[org.clojure/clojurescript   "1.9.542"]
+ :dependencies '[[org.clojure/clojure         "1.8.0"     :scope "test"]
+                 [org.clojure/clojurescript   "1.9.542"]
                  [org.clojure/core.async      "0.2.385"]
                  [adzerk/boot-cljs            "1.7.228-1" :scope "test"]
-                 [crisptrutski/boot-cljs-test "0.3.0"     :scope "test"]
-                 [degree9/boot-npm            "1.4.0"     :scope "test"]])
+                 [crisptrutski/boot-cljs-test "0.3.1"     :scope "test"]
+                 [degree9/boot-npm            "1.4.0"     :scope "test"]]
+ :repositories #(conj % ["clojars" "https://clojars.org/repo/"]))
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
@@ -16,12 +17,20 @@
       :version "0.1.0"
       :description "Clojurescript USB monitoring for Node.js"
       :url "https://github.com/johan-sports/busboy"
-      :license {"MIT" "https://github.com/johan-sports/busboy/blob/master/LICENSE"}})
+      :license {"MIT" "https://github.com/johan-sports/busboy/blob/master/LICENSE"}}
+ push {:tag true
+       :ensure-branch "master"
+       :ensure-release true
+       :ensure-clean true
+       :repo "clojars"})
+
+(deftask testing []
+  (merge-env! :source-paths #{"test"})
+  identity)
 
 (deftask test []
   (comp
-   (set-env! :source-paths #(conj % "test")
-             :resource-paths #(conj % "test"))
+   (testing)
    (test-cljs)))
 
 (deftask build
