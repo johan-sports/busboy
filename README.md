@@ -1,5 +1,7 @@
 # Busboy
 
+[![Clojars Project](https://img.shields.io/clojars/v/johan-sports/busboy.svg)](https://clojars.org/johan-sports/busboy)
+
 Clojurescript USB monitoring for Node.js
 
 ## Usage
