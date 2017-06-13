@@ -6,7 +6,9 @@
                  [adzerk/boot-cljs            "1.7.228-1" :scope "test"]
                  [crisptrutski/boot-cljs-test "0.3.1"     :scope "test"]
                  [degree9/boot-npm            "1.4.0"     :scope "test"]]
- :repositories #(conj % ["clojars" "https://clojars.org/repo/"]))
+ :repositories #(conj % ["clojars" {:url "https://clojars.org/repo/"
+                                    :username (System/getenv "CLOJARS_USER")
+                                    :password (System/getenv "CLOJARS_PASS")}]))
 
 (require '[adzerk.boot-cljs :refer [cljs]]
          '[crisptrutski.boot-cljs-test :refer [test-cljs]]
